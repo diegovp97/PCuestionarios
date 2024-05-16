@@ -1,6 +1,7 @@
 export interface Survey{
     titulo: string;
     subtitulo: string;
+    preguntas: Pregunta[];
 }
 
 export interface Item {
