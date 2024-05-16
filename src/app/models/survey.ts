@@ -3,12 +3,12 @@ export interface Survey{
     subtitulo: string;
 }
 
-interface Item {
+export interface Item {
     titulo: string;
     type: string;
   }
 
-interface Pregunta {
+export interface Pregunta {
     titulo: string;
     subtitulo: string;
     items: Item[]; 
