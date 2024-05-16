@@ -4,12 +4,12 @@ export interface Survey{
 }
 
 interface Item {
-    title: string;
+    titulo: string;
     type: string;
   }
 
 interface Pregunta {
-    title: string;
-    subtitle: string;
+    titulo: string;
+    subtitulo: string;
     items: Item[]; 
   }
