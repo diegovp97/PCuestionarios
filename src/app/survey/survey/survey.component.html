@@ -1,0 +1,28 @@
+<div class="container mt-5" *ngIf="survey$ | async as survey">
+  <div class="mb-4">
+    <h1 *ngIf="!editingSurvey">{{ survey.titulo }}</h1>
+    <input *ngIf="editingSurvey" [(ngModel)]="survey.titulo" class="form-control" />
+
+    <h2 *ngIf="!editingSurvey">{{ survey.subtitulo }}</h2>
+    <input *ngIf="editingSurvey" [(ngModel)]="survey.subtitulo" class="form-control" />
+
+    <div class="button-group mt-3">
+      <div *ngIf="!editingSurvey">
+        <button class="btn btn-primary" (click)="editSurvey()">Editar Survey</button>
+      </div>
+      <div *ngIf="editingSurvey">
+        <button class="btn btn-success" (click)="saveSurvey()">Guardar</button>
+      </div>
+      <div *ngIf="editingSurvey">
+        <button class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+      </div>
+      <div>
+        <button class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let pregunta of survey.preguntas; let i = index" class="mb-4">
+    <app-question [pregunta]="pregunta" [index]="i"></app-question>
+  </div>
+</div>

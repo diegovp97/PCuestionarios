@@ -1,0 +1,5 @@
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre los botones */
+  }

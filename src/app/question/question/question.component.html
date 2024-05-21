@@ -1,0 +1,26 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <h3 *ngIf="!editing" class="mr-2">{{ pregunta.titulo }}</h3>
+      <input *ngIf="editing" [(ngModel)]="pregunta.titulo" class="form-control mr-2" />
+      
+      <div class="btn-group">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Opciones
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar Pregunta</a></li>
+          <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()">Guardar</a></li>
+          <li><a class="dropdown-item" (click)="moveUp()">Subir Pregunta</a></li>
+          <li><a class="dropdown-item" (click)="moveDown()">Bajar Pregunta</a></li>
+          <li><a class="dropdown-item" (click)="deleteQuestion()">Eliminar Pregunta</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngFor="let item of pregunta.items; let j = index" class="d-flex align-items-center mt-2">
+      <app-item [item]="item" [questionIndex]="index" [itemIndex]="j" (itemUpdated)="updateQuestion()"></app-item>
+    </div>
+    <button class="btn btn-primary mt-2" (click)="addItem()">Agregar Ítem</button>
+  </div>
+</div>
