@@ -9,11 +9,11 @@
           Opciones
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar Pregunta</a></li>
-          <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()">Guardar</a></li>
-          <li><a class="dropdown-item" (click)="moveUp()">Subir Pregunta</a></li>
-          <li><a class="dropdown-item" (click)="moveDown()">Bajar Pregunta</a></li>
-          <li><a class="dropdown-item" (click)="deleteQuestion()">Eliminar Pregunta</a></li>
+          <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar <i class="fas fa-edit"></i></a></li>
+          <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()">Guardar<i class="fas fa-save"></i></a></li>
+          <li><a class="dropdown-item" (click)="moveUp()">Subir <i class="fas fa-arrow-up"></i></a></li>
+          <li><a class="dropdown-item" (click)="moveDown()">Bajar<i class="fas fa-arrow-down"></i></a></li>
+          <li><a class="dropdown-item" (click)="deleteQuestion()">Eliminar<i class="fas fa-trash"></i></a></li>
         </ul>
       </div>
     </div>

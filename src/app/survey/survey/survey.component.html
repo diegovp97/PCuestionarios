@@ -6,19 +6,11 @@
     <h2 *ngIf="!editingSurvey">{{ survey.subtitulo }}</h2>
     <input *ngIf="editingSurvey" [(ngModel)]="survey.subtitulo" class="form-control" />
 
-    <div class="button-group mt-3">
-      <div *ngIf="!editingSurvey">
-        <button class="btn btn-primary" (click)="editSurvey()">Editar Survey</button>
-      </div>
-      <div *ngIf="editingSurvey">
-        <button class="btn btn-success" (click)="saveSurvey()">Guardar</button>
-      </div>
-      <div *ngIf="editingSurvey">
-        <button class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
-      </div>
-      <div>
-        <button class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
-      </div>
+    <div class="button-group">
+      <button *ngIf="!editingSurvey" class="btn btn-primary" (click)="editSurvey()">Editar Survey</button>
+      <button *ngIf="editingSurvey" class="btn btn-success" (click)="saveSurvey()">Guardar</button>
+      <button *ngIf="editingSurvey" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+      <button class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
     </div>
   </div>
 

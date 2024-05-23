@@ -26,6 +26,7 @@ export class QuestionComponent {
 
   saveQuestion(): void {
     this.editing = false;
+    this.surveyService.editQuestion(this.index, this.pregunta);
     this.questionUpdated.emit();
   }
 
@@ -54,6 +55,7 @@ export class QuestionComponent {
   }
 
   updateQuestion(): void {
+    this.surveyService.editQuestion(this.index, this.pregunta);
     this.questionUpdated.emit();
   }
 }

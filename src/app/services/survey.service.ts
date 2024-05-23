@@ -6,34 +6,41 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SurveyService {
-  public survey_model: Survey | null;
-  public surveySubject = new BehaviorSubject<Survey | null>(null);
-  public surveySource = new BehaviorSubject<Survey | null>({
-    titulo: 'Título del Survey',
-    subtitulo: 'Subtítulo del Survey',
-    preguntas: []
-  });
+  private localStorageKey = 'survey';
+  public surveySource = new BehaviorSubject<Survey | null>(this.loadSurveyFromLocalStorage());
   survey$ = this.surveySource.asObservable();
 
   constructor() {
-    this.survey_model = {
+    console.log('Survey cargado del localstorage:', this.surveySource.getValue());
+  }
+
+  private loadSurveyFromLocalStorage(): Survey | null {
+    const surveyData = localStorage.getItem(this.localStorageKey);
+    return surveyData ? JSON.parse(surveyData) : {
       titulo: 'Título del Survey',
       subtitulo: 'Subtítulo del Survey',
       preguntas: []
     };
-    this.surveySource.next(this.survey_model);
+  }
+
+  private saveSurveyToLocalStorage(survey: Survey): void {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(survey));
+  }
+
+  public updateSurvey(survey: Survey): void {
+    this.saveSurveyToLocalStorage(survey);
+    this.surveySource.next(survey);
   }
 
   public getSurveySnapshot(): Survey | null {
     return this.surveySource.getValue();
   }
 
-  updateSurvey(survey: Survey) {
-    this.survey_model = survey;
-    this.surveySource.next(survey);
+  public updateSurveyDetails(survey: Survey) {
+    this.updateSurvey(survey);
   }
 
-  addQuestion(question: Pregunta) {
+  public addQuestion(question: Pregunta) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas.push(question);
@@ -41,7 +48,7 @@ export class SurveyService {
     }
   }
 
-  removeQuestion(index: number) {
+  public removeQuestion(index: number) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas.splice(index, 1);
@@ -49,7 +56,7 @@ export class SurveyService {
     }
   }
 
-  addItem(questionIndex: number, item: Item) {
+  public addItem(questionIndex: number, item: Item) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items.push(item);
@@ -57,7 +64,7 @@ export class SurveyService {
     }
   }
 
-  removeItem(questionIndex: number, itemIndex: number) {
+  public removeItem(questionIndex: number, itemIndex: number) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items.splice(itemIndex, 1);
@@ -65,7 +72,7 @@ export class SurveyService {
     }
   }
 
-  editQuestion(index: number, updatedQuestion: Pregunta) {
+  public editQuestion(index: number, updatedQuestion: Pregunta) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[index] = updatedQuestion;
@@ -73,7 +80,7 @@ export class SurveyService {
     }
   }
 
-  editItem(questionIndex: number, itemIndex: number, updatedItem: Item) {
+  public editItem(questionIndex: number, itemIndex: number, updatedItem: Item) {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items[itemIndex] = updatedItem;
@@ -81,40 +88,36 @@ export class SurveyService {
     }
   }
 
-  moveQuestionUp(index: number): void {
+  public moveQuestionUp(index: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && index > 0) {
-      [survey.preguntas[index - 1], survey.preguntas[index]] =
-        [survey.preguntas[index], survey.preguntas[index - 1]];
+      [survey.preguntas[index - 1], survey.preguntas[index]] = [survey.preguntas[index], survey.preguntas[index - 1]];
       this.updateSurvey(survey);
     }
   }
 
-  moveQuestionDown(index: number): void {
+  public moveQuestionDown(index: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && index < survey.preguntas.length - 1) {
-      [survey.preguntas[index + 1], survey.preguntas[index]] =
-        [survey.preguntas[index], survey.preguntas[index + 1]];
+      [survey.preguntas[index + 1], survey.preguntas[index]] = [survey.preguntas[index], survey.preguntas[index + 1]];
       this.updateSurvey(survey);
     }
   }
 
-  moveItemUp(questionIndex: number, itemIndex: number): void {
+  public moveItemUp(questionIndex: number, itemIndex: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && itemIndex > 0) {
       const items = survey.preguntas[questionIndex].items;
-      [items[itemIndex - 1], items[itemIndex]] =
-        [items[itemIndex], items[itemIndex - 1]];
+      [items[itemIndex - 1], items[itemIndex]] = [items[itemIndex], items[itemIndex - 1]];
       this.updateSurvey(survey);
     }
   }
 
-  moveItemDown(questionIndex: number, itemIndex: number): void {
+  public moveItemDown(questionIndex: number, itemIndex: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && itemIndex < survey.preguntas[questionIndex].items.length - 1) {
       const items = survey.preguntas[questionIndex].items;
-      [items[itemIndex + 1], items[itemIndex]] =
-        [items[itemIndex], items[itemIndex + 1]];
+      [items[itemIndex + 1], items[itemIndex]] = [items[itemIndex], items[itemIndex + 1]];
       this.updateSurvey(survey);
     }
   }

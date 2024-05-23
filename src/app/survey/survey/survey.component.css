@@ -1,5 +1,13 @@
 .button-group {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espacio entre los botones */
-  }
+  display: flex;
+  gap: 10px; 
+  flex-wrap: wrap;
+}
+
+.button-group .btn {
+  cursor: pointer;
+}
+
+.dropdown-menu .fa {
+  margin-right: 5px;
+}

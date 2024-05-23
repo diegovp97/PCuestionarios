@@ -1,17 +1,17 @@
-<div class="d-flex align-items-center">
-  <h4 *ngIf="!editing" class="mr-2">{{ item.titulo }}</h4>
-  <input *ngIf="editing" [(ngModel)]="item.titulo" class="form-control mr-2" />
+<div class="d-flex align-items-center mt-2">
+  <h4 *ngIf="!editing">{{ item.titulo }}</h4>
+  <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
 
   <div class="btn-group">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Opciones
+      <i class="fas fa-ellipsis-v"></i>
     </button>
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar Ítem</a></li>
-      <li><a class="dropdown-item" *ngIf="editing" (click)="saveItem()">Guardar</a></li>
-      <li><a class="dropdown-item" (click)="moveUp()">Subir Ítem</a></li>
-      <li><a class="dropdown-item" (click)="moveDown()">Bajar Ítem</a></li>
-      <li><a class="dropdown-item" (click)="deleteItem()">Eliminar Ítem</a></li>
+      <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar <i class="fas fa-edit"></i></a></li>
+      <li><a class="dropdown-item" *ngIf="editing" (click)="saveItem()">Guardar <i class="fas fa-save"></i></a></li>
+      <li><a class="dropdown-item" (click)="moveUp()">Subir <i class="fas fa-arrow-up"></i></a></li>
+      <li><a class="dropdown-item" (click)="moveDown()">Bajar <i class="fas fa-arrow-down"></i></a></li>
+      <li><a class="dropdown-item" (click)="deleteItem()">Eliminar <i class="fas fa-trash"></i></a></li>
     </ul>
   </div>
 </div>

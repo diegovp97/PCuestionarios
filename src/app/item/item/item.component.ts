@@ -29,6 +29,7 @@ export class ItemComponent {
 
   saveItem(): void {
     this.editing = false;
+    this.surveyService.editItem(this.questionIndex, this.itemIndex, this.item);
     this.itemUpdated.emit();
   }
 

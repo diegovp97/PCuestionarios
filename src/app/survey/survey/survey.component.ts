@@ -16,12 +16,25 @@ import { ItemComponent } from '../../item/item/item.component';
 })
 export class SurveyComponent implements OnInit {
   survey$!: Observable<Survey | null>;
-  editingSurvey = false;
+  editingSurvey: boolean = false;
 
   constructor(public surveyService: SurveyService) {}
 
   ngOnInit(): void {
     this.survey$ = this.surveyService.survey$;
+  }
+
+  editSurvey() {
+    this.editingSurvey = true;
+  }
+
+  saveSurvey() {
+    this.surveyService.updateSurvey(this.surveyService.getSurveySnapshot()!);
+    this.editingSurvey = false;
+  }
+
+  cancelEdit() {
+    this.editingSurvey = false;
   }
 
   addQuestion(): void {
@@ -31,23 +44,5 @@ export class SurveyComponent implements OnInit {
       items: []
     };
     this.surveyService.addQuestion(newQuestion);
-  }
-
-  updateSurvey(): void {
-    this.surveyService.updateSurvey(this.surveyService.survey_model!);
-  }
-
-  editSurvey(): void {
-    this.editingSurvey = true;
-  }
-
-  saveSurvey(): void {
-    this.editingSurvey = false;
-    this.surveyService.updateSurvey(this.surveyService.survey_model!);
-  }
-
-  cancelEdit(): void {
-    this.editingSurvey = false;
-    this.surveyService.surveySubject.next(this.surveyService.survey_model);
   }
 }
