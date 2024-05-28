@@ -11,7 +11,7 @@ export class SurveyService {
   survey$ = this.surveySource.asObservable();
 
   constructor() {
-    console.log('Survey cargado del localstorage:', this.surveySource.getValue());
+    console.log('Survey loaded from local storage:', this.surveySource.getValue());
   }
 
   private loadSurveyFromLocalStorage(): Survey | null {
@@ -27,20 +27,16 @@ export class SurveyService {
     localStorage.setItem(this.localStorageKey, JSON.stringify(survey));
   }
 
+  public getSurveySnapshot(): Survey | null {
+    return this.surveySource.getValue();
+  }
+
   public updateSurvey(survey: Survey): void {
     this.saveSurveyToLocalStorage(survey);
     this.surveySource.next(survey);
   }
 
-  public getSurveySnapshot(): Survey | null {
-    return this.surveySource.getValue();
-  }
-
-  public updateSurveyDetails(survey: Survey) {
-    this.updateSurvey(survey);
-  }
-
-  public addQuestion(question: Pregunta) {
+  public addQuestion(question: Pregunta): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas.push(question);
@@ -48,7 +44,7 @@ export class SurveyService {
     }
   }
 
-  public removeQuestion(index: number) {
+  public removeQuestion(index: number): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas.splice(index, 1);
@@ -56,7 +52,7 @@ export class SurveyService {
     }
   }
 
-  public addItem(questionIndex: number, item: Item) {
+  public addItem(questionIndex: number, item: Item): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items.push(item);
@@ -64,7 +60,7 @@ export class SurveyService {
     }
   }
 
-  public removeItem(questionIndex: number, itemIndex: number) {
+  public removeItem(questionIndex: number, itemIndex: number): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items.splice(itemIndex, 1);
@@ -72,7 +68,7 @@ export class SurveyService {
     }
   }
 
-  public editQuestion(index: number, updatedQuestion: Pregunta) {
+  public editQuestion(index: number, updatedQuestion: Pregunta): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[index] = updatedQuestion;
@@ -80,7 +76,7 @@ export class SurveyService {
     }
   }
 
-  public editItem(questionIndex: number, itemIndex: number, updatedItem: Item) {
+  public editItem(questionIndex: number, itemIndex: number, updatedItem: Item): void {
     const survey = this.getSurveySnapshot();
     if (survey) {
       survey.preguntas[questionIndex].items[itemIndex] = updatedItem;
@@ -91,7 +87,8 @@ export class SurveyService {
   public moveQuestionUp(index: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && index > 0) {
-      [survey.preguntas[index - 1], survey.preguntas[index]] = [survey.preguntas[index], survey.preguntas[index - 1]];
+      [survey.preguntas[index - 1], survey.preguntas[index]] =
+        [survey.preguntas[index], survey.preguntas[index - 1]];
       this.updateSurvey(survey);
     }
   }
@@ -99,7 +96,8 @@ export class SurveyService {
   public moveQuestionDown(index: number): void {
     const survey = this.getSurveySnapshot();
     if (survey && index < survey.preguntas.length - 1) {
-      [survey.preguntas[index + 1], survey.preguntas[index]] = [survey.preguntas[index], survey.preguntas[index + 1]];
+      [survey.preguntas[index + 1], survey.preguntas[index]] =
+        [survey.preguntas[index], survey.preguntas[index + 1]];
       this.updateSurvey(survey);
     }
   }
@@ -108,7 +106,8 @@ export class SurveyService {
     const survey = this.getSurveySnapshot();
     if (survey && itemIndex > 0) {
       const items = survey.preguntas[questionIndex].items;
-      [items[itemIndex - 1], items[itemIndex]] = [items[itemIndex], items[itemIndex - 1]];
+      [items[itemIndex - 1], items[itemIndex]] =
+        [items[itemIndex], items[itemIndex - 1]];
       this.updateSurvey(survey);
     }
   }
@@ -117,7 +116,8 @@ export class SurveyService {
     const survey = this.getSurveySnapshot();
     if (survey && itemIndex < survey.preguntas[questionIndex].items.length - 1) {
       const items = survey.preguntas[questionIndex].items;
-      [items[itemIndex + 1], items[itemIndex]] = [items[itemIndex], items[itemIndex + 1]];
+      [items[itemIndex + 1], items[itemIndex]] =
+        [items[itemIndex], items[itemIndex + 1]];
       this.updateSurvey(survey);
     }
   }

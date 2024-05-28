@@ -9,11 +9,11 @@
           Opciones
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar <i class="fas fa-edit"></i></a></li>
-          <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()">Guardar<i class="fas fa-save"></i></a></li>
-          <li><a class="dropdown-item" (click)="moveUp()">Subir <i class="fas fa-arrow-up"></i></a></li>
-          <li><a class="dropdown-item" (click)="moveDown()">Bajar<i class="fas fa-arrow-down"></i></a></li>
-          <li><a class="dropdown-item" (click)="deleteQuestion()">Eliminar<i class="fas fa-trash"></i></a></li>
+          <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar Pregunta</a></li>
+          <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()">Guardar</a></li>
+          <li><a class="dropdown-item" (click)="moveUp()">Subir Pregunta</a></li>
+          <li><a class="dropdown-item" (click)="moveDown()">Bajar Pregunta</a></li>
+          <li><a class="dropdown-item" (click)="deleteQuestion()">Eliminar Pregunta</a></li>
         </ul>
       </div>
     </div>
@@ -21,6 +21,8 @@
     <div *ngFor="let item of pregunta.items; let j = index" class="d-flex align-items-center mt-2">
       <app-item [item]="item" [questionIndex]="index" [itemIndex]="j" (itemUpdated)="updateQuestion()"></app-item>
     </div>
-    <button class="btn btn-primary mt-2" (click)="addItem()">Agregar Ítem</button>
+    <button class="btn btn-primary mt-2" (click)="addItem('text')">Agregar Ítem de Texto</button>
+    <button class="btn btn-primary mt-2" (click)="addItem('number')">Agregar Ítem Numérico</button>
+    <button class="btn btn-primary mt-2" (click)="addItem('selection')">Agregar Ítem de Selección</button>
   </div>
 </div>

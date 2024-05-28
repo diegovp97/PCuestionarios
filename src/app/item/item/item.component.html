@@ -1,6 +1,24 @@
+<!-- item.component.html -->
+
 <div class="d-flex align-items-center mt-2">
-  <h4 *ngIf="!editing">{{ item.titulo }}</h4>
-  <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
+  <ng-container [ngSwitch]="item.type">
+    <ng-container *ngSwitchCase="'text'">
+      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
+      <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
+    </ng-container>
+    
+    <ng-container *ngSwitchCase="'number'">
+      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
+      <input type="number" *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
+    </ng-container>
+    
+    <ng-container *ngSwitchCase="'selection'">
+      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
+      <select *ngIf="editing" [(ngModel)]="item.titulo" class="form-control mr-2">
+        <option *ngFor="let option of item.options" [value]="option">{{ option }}</option>
+      </select>
+    </ng-container>
+  </ng-container>
 
   <div class="btn-group">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

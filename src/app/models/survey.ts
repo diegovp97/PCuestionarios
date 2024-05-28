@@ -6,7 +6,8 @@ export interface Survey {
 
 export interface Item {
   titulo: string;
-  type: string;
+  type: 'text' | 'number' | 'selection';
+  options?: string[];
 }
 
 export interface Pregunta {
@@ -14,3 +15,5 @@ export interface Pregunta {
   subtitulo: string;
   items: Item[];
 }
+
+export type ItemType = 'number' | 'text' | 'selection';

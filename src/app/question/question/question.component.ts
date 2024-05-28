@@ -1,6 +1,6 @@
 import { Component, Input,Output,EventEmitter } from '@angular/core';
 import { SurveyService } from '../../services/survey.service';
-import { Pregunta, Item } from '../../models/survey';
+import { Pregunta, Item, ItemType } from '../../models/survey';
 import { ItemComponent } from '../../item/item/item.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,6 @@ export class QuestionComponent {
 
   saveQuestion(): void {
     this.editing = false;
-    this.surveyService.editQuestion(this.index, this.pregunta);
     this.questionUpdated.emit();
   }
 
@@ -35,10 +34,10 @@ export class QuestionComponent {
     this.questionUpdated.emit();
   }
 
-  addItem(): void {
+  addItem(type: ItemType): void {
     const newItem: Item = {
-      titulo: 'Nuevo Ítem',
-      type: 'text'
+      titulo: `Nuevo Ítem ${type}`,
+      type: type
     };
     this.surveyService.addItem(this.index, newItem);
     this.questionUpdated.emit();
@@ -55,7 +54,6 @@ export class QuestionComponent {
   }
 
   updateQuestion(): void {
-    this.surveyService.editQuestion(this.index, this.pregunta);
     this.questionUpdated.emit();
   }
 }
