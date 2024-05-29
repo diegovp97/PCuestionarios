@@ -1,24 +1,6 @@
-<!-- item.component.html -->
-
 <div class="d-flex align-items-center mt-2">
-  <ng-container [ngSwitch]="item.type">
-    <ng-container *ngSwitchCase="'text'">
-      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
-      <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
-    </ng-container>
-    
-    <ng-container *ngSwitchCase="'number'">
-      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
-      <input type="number" *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
-    </ng-container>
-    
-    <ng-container *ngSwitchCase="'selection'">
-      <h4 *ngIf="!editing">{{ item.titulo }}</h4>
-      <select *ngIf="editing" [(ngModel)]="item.titulo" class="form-control mr-2">
-        <option *ngFor="let option of item.options" [value]="option">{{ option }}</option>
-      </select>
-    </ng-container>
-  </ng-container>
+  <h4 *ngIf="!editing">{{ item.titulo }}</h4>
+  <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
 
   <div class="btn-group">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,6 +12,17 @@
       <li><a class="dropdown-item" (click)="moveUp()">Subir <i class="fas fa-arrow-up"></i></a></li>
       <li><a class="dropdown-item" (click)="moveDown()">Bajar <i class="fas fa-arrow-down"></i></a></li>
       <li><a class="dropdown-item" (click)="deleteItem()">Eliminar <i class="fas fa-trash"></i></a></li>
+      <li *ngIf="item.type === 'selection'"><a class="dropdown-item" (click)="toggleEditOptions()">Editar Opciones <i class="fas fa-list"></i></a></li>
     </ul>
   </div>
+</div>
+
+<div *ngIf="item.type === 'selection' && editingOptions">
+  <ul>
+    <li *ngFor="let option of item.options; let i = index">
+      <input [(ngModel)]="item.options![i]" (blur)="saveOption(i, item.options![i])" class="form-control mb-2" />
+      <button class="btn btn-danger btn-sm" (click)="deleteOption(i)">Eliminar Opción</button>
+    </li>
+  </ul>
+  <button class="btn btn-primary btn-sm" (click)="addOption()">Añadir Opción</button>
 </div>

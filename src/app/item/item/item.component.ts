@@ -20,6 +20,7 @@ export class ItemComponent {
   @Input() itemIndex!: number;
   @Output() itemUpdated = new EventEmitter<void>();
   editing = false;
+  editingOptions = false; // Variable para manejar la edición de opciones
 
   constructor(private surveyService: SurveyService) {}
 
@@ -29,7 +30,6 @@ export class ItemComponent {
 
   saveItem(): void {
     this.editing = false;
-    this.surveyService.editItem(this.questionIndex, this.itemIndex, this.item);
     this.itemUpdated.emit();
   }
 
@@ -46,5 +46,32 @@ export class ItemComponent {
   moveDown(): void {
     this.surveyService.moveItemDown(this.questionIndex, this.itemIndex);
     this.itemUpdated.emit();
+  }
+
+  // Métodos para manejar opciones
+  addOption(): void {
+    if (!this.item.options) {
+      this.item.options = [];
+    }
+    this.item.options.push('Nueva opción');
+    this.itemUpdated.emit();
+  }
+
+  deleteOption(index: number): void {
+    if (this.item.options) {
+      this.item.options.splice(index, 1);
+      this.itemUpdated.emit();
+    }
+  }
+
+  saveOption(index: number, newValue: string): void {
+    if (this.item.options) {
+      this.item.options[index] = newValue;
+      this.itemUpdated.emit();
+    }
+  }
+
+  toggleEditOptions(): void {
+    this.editingOptions = !this.editingOptions;
   }
 }
