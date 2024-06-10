@@ -1,20 +1,32 @@
-<div class="container mt-5" *ngIf="survey$ | async as survey">
-  <div class="mb-4">
-    <h1 *ngIf="!editingSurvey">{{ survey.titulo }}</h1>
-    <input *ngIf="editingSurvey" [(ngModel)]="survey.titulo" class="form-control" />
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <div class="mb-4" *ngIf="survey$ | async as survey"> <h1 *ngIf="!editingSurvey">{{ survey.titulo }}</h1>
+        <input *ngIf="editingSurvey" [(ngModel)]="survey.titulo" class="form-control border-primary" />
 
-    <h2 *ngIf="!editingSurvey">{{ survey.subtitulo }}</h2>
-    <input *ngIf="editingSurvey" [(ngModel)]="survey.subtitulo" class="form-control" />
+        <h2 *ngIf="!editingSurvey" class="h4">{{ survey.subtitulo }}</h2>
+        <input *ngIf="editingSurvey" [(ngModel)]="survey.subtitulo" class="form-control border-primary" />
 
-    <div class="button-group">
-      <button *ngIf="!editingSurvey" class="btn btn-primary" (click)="editSurvey()">Editar Survey</button>
-      <button *ngIf="editingSurvey" class="btn btn-success" (click)="saveSurvey()">Guardar</button>
-      <button *ngIf="editingSurvey" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
-      <button class="btn btn-primary" (click)="addQuestion()">Agregar Pregunta</button>
+        <div class="button-group mt-3">
+          <button *ngIf="!editingSurvey" class="btn btn-outline-primary" (click)="editSurvey()">
+            <i class="bi bi-pencil"></i> Editar Encuesta
+          </button>
+          <button *ngIf="editingSurvey" class="btn btn-success" (click)="saveSurvey()">
+            <i class="bi bi-check-circle"></i> Guardar
+          </button>
+          <button *ngIf="editingSurvey" class="btn btn-secondary" (click)="cancelEdit()">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+          <button class="btn btn-primary" (click)="addQuestion()">
+            <i class="bi bi-plus-circle"></i> Agregar Pregunta
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div *ngFor="let pregunta of survey.preguntas; let i = index" class="mb-4">
-    <app-question [pregunta]="pregunta" [index]="i"></app-question>
+    <div class="card-body" *ngIf="survey$ | async as survey">
+      <div *ngFor="let pregunta of survey.preguntas; let i = index" class="mb-4">
+        <app-question [pregunta]="pregunta" [index]="i"></app-question>
+      </div>
+    </div>
   </div>
 </div>

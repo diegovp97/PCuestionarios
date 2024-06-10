@@ -1,28 +1,61 @@
-<div class="d-flex align-items-center mt-2">
-  <h4 *ngIf="!editing">{{ item.titulo }}</h4>
-  <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" class="form-control mr-2" />
+<div class="card mb-3 shadow-sm">
+  <div class="card-header bg-light d-flex align-items-center">
+    <h4 *ngIf="!editing" class="flex-grow-1">{{ item.titulo }}</h4>
+    <input *ngIf="editing" [(ngModel)]="item.titulo" (blur)="saveItem()" 
+           class="form-control flex-grow-1 border-primary" [type]="item.type === 'numeric' ? 'number' : 'text'" />
 
-  <div class="btn-group">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="fas fa-ellipsis-v"></i>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()">Editar <i class="fas fa-edit"></i></a></li>
-      <li><a class="dropdown-item" *ngIf="editing" (click)="saveItem()">Guardar <i class="fas fa-save"></i></a></li>
-      <li><a class="dropdown-item" (click)="moveUp()">Subir <i class="fas fa-arrow-up"></i></a></li>
-      <li><a class="dropdown-item" (click)="moveDown()">Bajar <i class="fas fa-arrow-down"></i></a></li>
-      <li><a class="dropdown-item" (click)="deleteItem()">Eliminar <i class="fas fa-trash"></i></a></li>
-      <li *ngIf="item.type === 'selection'"><a class="dropdown-item" (click)="toggleEditOptions()">Editar Opciones <i class="fas fa-list"></i></a></li>
-    </ul>
+    <div class="btn-group">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()"><i class="bi bi-pencil"></i> Editar</a></li>
+        <li><a class="dropdown-item" *ngIf="editing" (click)="saveItem()"><i class="bi bi-save"></i> Guardar</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="moveUp()"><i class="bi bi-arrow-up"></i> Subir</a></li>
+        <li><a class="dropdown-item" (click)="moveDown()"><i class="bi bi-arrow-down"></i> Bajar</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" (click)="deleteItem()"><i class="bi bi-trash"></i> Eliminar</a></li>
+        <li *ngIf="item.type === 'selection'"><a class="dropdown-item" (click)="toggleEditOptions()"><i class="bi bi-list-check"></i> Editar Opciones</a></li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<div *ngIf="item.type === 'selection' && editingOptions">
-  <ul>
-    <li *ngFor="let option of item.options; let i = index">
-      <input [(ngModel)]="item.options![i]" (blur)="saveOption(i, item.options![i])" class="form-control mb-2" />
-      <button class="btn btn-danger btn-sm" (click)="deleteOption(i)">Eliminar Opción</button>
-    </li>
-  </ul>
-  <button class="btn btn-primary btn-sm" (click)="addOption()">Añadir Opción</button>
+  <div class="card-body">
+    <div *ngIf="item.type === 'selection'">
+      <div *ngIf="editingOptions">
+        <div class="form-group">
+          <input [(ngModel)]="newOption" (keydown.enter)="addOption()" placeholder="Nueva opción" class="form-control mb-2" />
+          <button class="btn btn-primary btn-sm" (click)="addOption()">Añadir Opción</button>
+        </div>
+        <ul class="list-group mb-2">
+          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let option of item.options">
+            {{ option }}
+            <button class="btn btn-danger btn-sm" (click)="deleteOption(option)">Eliminar</button>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!editingOptions">
+        <select [(ngModel)]="selectedOption" class="form-control mb-2">
+          <option *ngFor="let option of item.options" [value]="option">{{ option }}</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary btn-sm" (click)="toggleEditOptions()">
+        {{ editingOptions ? 'Terminar edición' : 'Editar Opciones' }}
+      </button>
+    </div>
+
+    <div *ngIf="item.type === 'numeric' && editingOptions">
+      <div class="form-group">
+        <input [(ngModel)]="newOption" type="number" (keydown.enter)="addOption()" placeholder="Nueva opción numérica" class="form-control mb-2" />
+        <button class="btn btn-primary btn-sm" (click)="addOption()">Añadir Opción</button>
+      </div>
+      <ul class="list-group mb-2">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let option of item.options">
+          {{ option }}
+          <button class="btn btn-danger btn-sm" (click)="deleteOption(option)">Eliminar</button>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

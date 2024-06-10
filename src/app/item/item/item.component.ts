@@ -3,16 +3,13 @@ import { SurveyService } from '../../services/survey.service';
 import { Item } from '../../models/survey';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { QuestionComponent } from '../../question/question/question.component';
-
-
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './item.component.html',
-  styleUrl: './item.component.css'
+  styleUrls: ['./item.component.css']
 })
 export class ItemComponent {
   @Input() item!: Item;
@@ -20,7 +17,9 @@ export class ItemComponent {
   @Input() itemIndex!: number;
   @Output() itemUpdated = new EventEmitter<void>();
   editing = false;
-  editingOptions = false; // Variable para manejar la edición de opciones
+  editingOptions = false;
+  selectedOption!: string;
+  newOption: string = ''; // Variable para la nueva opción
 
   constructor(private surveyService: SurveyService) {}
 
@@ -53,20 +52,19 @@ export class ItemComponent {
     if (!this.item.options) {
       this.item.options = [];
     }
-    this.item.options.push('Nueva opción');
-    this.itemUpdated.emit();
-  }
-
-  deleteOption(index: number): void {
-    if (this.item.options) {
-      this.item.options.splice(index, 1);
+    if (this.newOption.trim()) {
+      this.item.options.push(this.newOption.trim());
+      this.newOption = '';
+      this.selectedOption = this.item.options[this.item.options.length - 1];
       this.itemUpdated.emit();
     }
   }
 
-  saveOption(index: number, newValue: string): void {
-    if (this.item.options) {
-      this.item.options[index] = newValue;
+  deleteOption(option: string): void {
+    const index = this.item.options!.indexOf(option);
+    if (index > -1) {
+      this.item.options!.splice(index, 1);
+      this.selectedOption = this.item.options!.length > 0 ? this.item.options![0] : '';
       this.itemUpdated.emit();
     }
   }
