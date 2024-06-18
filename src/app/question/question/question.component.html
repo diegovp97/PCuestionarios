@@ -1,26 +1,48 @@
 <div class="card mb-3 shadow-sm">
-  <div class="card-header bg-primary text-white d-flex align-items-center"> 
-    <h3 *ngIf="!editing" class="flex-grow-1">{{ pregunta.titulo }}</h3>
-    <input *ngIf="editing" [(ngModel)]="pregunta.titulo" (blur)="saveQuestion()" class="form-control flex-grow-1" />
+  <div class="card-header d-flex align-items-center">
+    <div *ngIf="!editing" class="flex-grow-1">
+      <ng-container *ngIf="!isMarkdown(pregunta.titulo)">
+        <div [innerHTML]="getSafeHtml(pregunta.titulo)"></div>
+      </ng-container>
+      <markdown *ngIf="isMarkdown(pregunta.titulo)" ngPreserveWhitespaces>
+        {{ pregunta.titulo }}
+      </markdown>
+    </div>
+
+    <div *ngIf="editing" class="flex-grow-1 editor-container">
+      <select [(ngModel)]="selectedFormat" class="form-select mb-2">
+        <option value="xml">XML</option>
+        <option value="yaml">YAML</option>
+        <option value="markdown">Markdown</option>
+      </select>
+
+      <div class="custom-editor-container" style="background-color: white; padding: 0.5rem; border-radius: 8px;">
+        <angular-editor 
+          [(ngModel)]="pregunta.titulo" 
+          [config]="editorConfig"
+          style="background-color: white; color: black;"
+        ></angular-editor>
+      </div>
+    </div>
 
     <div class="btn-group">
       <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots-vertical"></i>
       </button>
-      <ul class="dropdown-menu dropdown-menu-dark"> 
+      <ul class="dropdown-menu dropdown-menu-dark">
         <li><a class="dropdown-item" *ngIf="!editing" (click)="toggleEdit()"><i class="bi bi-pencil"></i> Editar Pregunta</a></li>
         <li><a class="dropdown-item" *ngIf="editing" (click)="saveQuestion()"><i class="bi bi-save"></i> Guardar</a></li>
-        <li><hr class="dropdown-divider"></li> 
+        <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" (click)="moveUp()"><i class="bi bi-arrow-up"></i> Subir Pregunta</a></li>
         <li><a class="dropdown-item" (click)="moveDown()"><i class="bi bi-arrow-down"></i> Bajar Pregunta</a></li>
-        <li><hr class="dropdown-divider"></li> 
+        <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item text-danger" (click)="deleteQuestion()"><i class="bi bi-trash"></i> Eliminar Pregunta</a></li>
       </ul>
     </div>
   </div>
 
   <div class="card-body">
-    <div *ngFor="let item of pregunta.items; let j = index" class="mb-3"> 
+    <div *ngFor="let item of pregunta.items; let j = index" class="mb-3">
       <app-item [item]="item" [questionIndex]="index" [itemIndex]="j" (itemUpdated)="updateQuestion()"></app-item>
     </div>
     <div class="mt-3 d-flex gap-2">

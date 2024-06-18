@@ -1,0 +1,39 @@
+.card {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+}
+
+.card-header {
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+}
+
+.editor-container {
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.custom-editor-container .angular-editor,
+.custom-editor-container .angular-editor-wrapper,
+.custom-editor-container .angular-editor-textarea,
+.custom-editor-container .angular-editor-textarea::before,
+.custom-editor-container .angular-editor-textarea::after,
+.custom-editor-container .angular-editor-toolbar {
+  background-color: white !important;
+  color: black !important;
+}
