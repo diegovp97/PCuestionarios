@@ -99,7 +99,7 @@ export class QuestionComponent {
   async convertContent(content: string, format: 'xml' | 'yaml' | 'markdown'): Promise<string> {
     switch (format) {
       case 'xml':
-        return content; // Mantener contenido como está para XML
+        return content;
       case 'yaml':
         try {
           const parsedYaml = YAML.load(content);
@@ -124,7 +124,7 @@ export class QuestionComponent {
   async convertContentToDisplay(content: string, format: 'xml' | 'yaml' | 'markdown'): Promise<string> {
     switch (format) {
       case 'xml':
-        return content; // Mantener contenido como está para XML
+        return content;
       case 'yaml':
         try {
           const parsedYaml = YAML.load(content);
@@ -134,7 +134,7 @@ export class QuestionComponent {
           return content;
         }
       case 'markdown':
-        return content; // Mostrar el contenido markdown como está para visualizar
+        return content; 
       default:
         return content;
     }
