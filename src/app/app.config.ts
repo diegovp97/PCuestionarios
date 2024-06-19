@@ -5,5 +5,5 @@ import { routes } from './app.routes';
 import { MarkdownModule } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient()]
+  providers: [provideRouter(routes), provideHttpClient(), importProvidersFrom(MarkdownModule.forRoot())]
 };
